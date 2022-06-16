@@ -5,12 +5,10 @@
 		addSeedPointToChart,
 		clearChart
 	} from '$lib/chart';
-
 	import { makeEquilateralTriangle, getRandomPointInsideTriangle } from '$lib/triangle';
 	import type { Triangle, Point, ChaosGameState } from '$lib/types';
 	import { getNextPoints } from '$lib/game';
-
-	import type { Chart } from 'chart.js';
+	import { Chart, registerables } from 'chart.js';
 	import { onMount } from 'svelte';
 
 	const triangle: Triangle = makeEquilateralTriangle();
@@ -21,10 +19,11 @@
 		currentPoint: seedPoint
 	};
 
+	const MAX_NUMBER_OF_POINTS_TO_ADD = 5000;
 	function handleAddPoints() {
-		if (numberOfPointsToAdd > 1000) {
-			alert('Too many points! Max is 1000.');
-			numberOfPointsToAdd = 1000;
+		if (numberOfPointsToAdd > MAX_NUMBER_OF_POINTS_TO_ADD) {
+			alert(`Too many points! Max is ${MAX_NUMBER_OF_POINTS_TO_ADD}.`);
+			numberOfPointsToAdd = MAX_NUMBER_OF_POINTS_TO_ADD;
 		}
 
 		const points = getNextPoints({
@@ -47,9 +46,7 @@
 
 	let canvas: HTMLCanvasElement;
 	let chart: Chart;
-	onMount(async () => {
-		const { Chart, registerables } = await import('chart.js');
-
+	onMount(() => {
 		Chart.register(...registerables);
 
 		chart = new Chart(canvas, {
