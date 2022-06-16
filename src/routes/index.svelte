@@ -1,23 +1,14 @@
 <script lang="ts">
-	import {
-		addComputedPointsToChart,
-		addInitialTriangleToChart,
-		addSeedPointToChart,
-		clearChart
-	} from '$lib/chart';
+	import { GameChart } from '$lib/GameChart';
+	import { GameState } from '$lib/GameState';
+	import { Game } from '$lib/Game';
 	import { makeEquilateralTriangle, getRandomPointInsideTriangle } from '$lib/triangle';
-	import type { Triangle, Point, GameState } from '$lib/types';
-	import { getNextPoints } from '$lib/game';
+	import type { Triangle, Point } from '$lib/types';
 	import { Chart, registerables } from 'chart.js';
 	import { onMount } from 'svelte';
 
 	const triangle: Triangle = makeEquilateralTriangle();
 	const seedPoint: Point = getRandomPointInsideTriangle(triangle);
-	const currentState: GameState = {
-		triangle,
-		seedPoint,
-		currentPoint: seedPoint
-	};
 
 	const MAX_NUMBER_OF_POINTS_TO_ADD = 5000;
 	function handleAddPoints() {
@@ -26,30 +17,20 @@
 			numberOfPointsToAdd = MAX_NUMBER_OF_POINTS_TO_ADD;
 		}
 
-		const points = getNextPoints({
-			numberOfPoints: numberOfPointsToAdd,
-			state: currentState
-		});
-		addComputedPointsToChart(chart, points);
+		game.addPoints(numberOfPointsToAdd);
 	}
 
-	function handleResetChart() {
-		clearChart(chart);
-
-		const newSeedPoint = getRandomPointInsideTriangle(triangle);
-		currentState.seedPoint = newSeedPoint;
-		currentState.currentPoint = newSeedPoint;
-
-		addInitialTriangleToChart(chart, currentState.triangle);
-		addSeedPointToChart(chart, currentState.seedPoint);
+	function handleReset() {
+		game.reset();
+		game.start();
 	}
 
 	let canvas: HTMLCanvasElement;
-	let chart: Chart;
+	let game: Game;
 	onMount(() => {
 		Chart.register(...registerables);
 
-		chart = new Chart(canvas, {
+		const chart = new Chart(canvas, {
 			type: 'scatter',
 			data: {
 				datasets: [
@@ -81,8 +62,11 @@
 			}
 		});
 
-		addInitialTriangleToChart(chart, currentState.triangle);
-		addSeedPointToChart(chart, currentState.seedPoint);
+		const gameChart = new GameChart(chart);
+		const gameState = new GameState(triangle, seedPoint);
+		game = new Game(gameChart, gameState);
+
+		game.start();
 
 		return () => {
 			chart.destroy();
@@ -105,7 +89,7 @@
 			<button on:click={handleAddPoints} class="btn btn-primary">
 				Add {numberOfPointsToAdd} point{numberOfPointsToAdd === 1 ? '' : 's'}
 			</button>
-			<button on:click={handleResetChart} class="btn btn-outline-secondary"> Reset chart </button>
+			<button on:click={handleReset} class="btn btn-outline-secondary"> Reset </button>
 		</div>
 	</div>
 	<canvas bind:this={canvas} width="100" height="100" />
