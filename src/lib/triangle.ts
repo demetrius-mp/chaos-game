@@ -1,5 +1,5 @@
+import type { Point, Triangle } from '$lib/types';
 import { sample } from 'lodash-es';
-import type { Triangle, Point, ChaosGameState } from './types';
 
 export function makeEquilateralTriangle(): Triangle {
 	return {
@@ -45,27 +45,4 @@ export function getRandomVertexFromTriangle(triangle: Triangle): Point {
 	const randomVertex = sample([a, b, c]) as Point;
 
 	return randomVertex;
-}
-
-export function getMidpoint(p1: Point, p2: Point): Point {
-	const x = (p1.x + p2.x) / 2;
-	const y = (p1.y + p2.y) / 2;
-
-	return {
-		x,
-		y
-	};
-}
-
-export function getNextPoints(options: { state: ChaosGameState; numberOfPoints: number }): Point[] {
-	const { state, numberOfPoints } = options;
-
-	return Array.from({ length: numberOfPoints }, () => {
-		const currentVertex = getRandomVertexFromTriangle(state.triangle);
-		const midpoint = getMidpoint(state.currentPoint, currentVertex);
-
-		state.currentPoint = midpoint;
-
-		return midpoint;
-	});
 }

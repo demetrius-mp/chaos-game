@@ -6,13 +6,9 @@
 		clearChart
 	} from '$lib/chart';
 
-	import {
-		makeEquilateralTriangle,
-		getRandomPointInsideTriangle,
-		getNextPoints
-	} from '$lib/functions';
-
+	import { makeEquilateralTriangle, getRandomPointInsideTriangle } from '$lib/triangle';
 	import type { Triangle, Point, ChaosGameState } from '$lib/types';
+	import { getNextPoints } from '$lib/game';
 
 	import type { Chart } from 'chart.js';
 	import { onMount } from 'svelte';

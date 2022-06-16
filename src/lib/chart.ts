@@ -1,4 +1,4 @@
-import { getTrianglePointsAsArray } from '$lib/functions';
+import { getTrianglePointsAsArray } from '$lib/triangle';
 import type { Point, Triangle } from '$lib/types';
 import type { Chart } from 'chart.js';
 
