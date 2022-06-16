@@ -2,27 +2,24 @@ import type { Point, Triangle } from '$lib/types';
 import { sample } from 'lodash-es';
 
 export function makeEquilateralTriangle(): Triangle {
-	return {
-		a: {
+	return [
+		{
 			x: 0,
 			y: 0
 		},
-		b: {
+		{
 			x: 5,
 			y: 10
 		},
-		c: {
+		{
 			x: 10,
 			y: 0
 		}
-	};
+	];
 }
 
-export function getTrianglePointsAsArray(triangle: Triangle): Point[] {
-	return [triangle.a, triangle.b, triangle.c];
-}
-
-export function getRandomPointInsideTriangle({ a, b, c }: Triangle): Point {
+export function getRandomPointInsideTriangle(triangle: Triangle): Point {
+	const [a, b, c] = triangle;
 	const rand1 = Math.random();
 	const rand2 = Math.random();
 	const [random_x, random_y] = [rand1, rand2].sort((a, b) => a - b);
@@ -41,7 +38,7 @@ export function getRandomPointInsideTriangle({ a, b, c }: Triangle): Point {
 }
 
 export function getRandomVertexFromTriangle(triangle: Triangle): Point {
-	const { a, b, c } = triangle;
+	const [a, b, c] = triangle;
 	const randomVertex = sample([a, b, c]) as Point;
 
 	return randomVertex;

@@ -3,13 +3,9 @@ export interface Point {
 	y: number;
 }
 
-export interface Triangle {
-	a: Point;
-	b: Point;
-	c: Point;
-}
+export type Triangle = [Point, Point, Point];
 
-export interface ChaosGameState {
+export interface GameState {
 	triangle: Triangle;
 	seedPoint: Point;
 	currentPoint: Point;

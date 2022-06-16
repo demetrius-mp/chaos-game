@@ -6,14 +6,14 @@
 		clearChart
 	} from '$lib/chart';
 	import { makeEquilateralTriangle, getRandomPointInsideTriangle } from '$lib/triangle';
-	import type { Triangle, Point, ChaosGameState } from '$lib/types';
+	import type { Triangle, Point, GameState } from '$lib/types';
 	import { getNextPoints } from '$lib/game';
 	import { Chart, registerables } from 'chart.js';
 	import { onMount } from 'svelte';
 
 	const triangle: Triangle = makeEquilateralTriangle();
 	const seedPoint: Point = getRandomPointInsideTriangle(triangle);
-	const currentState: ChaosGameState = {
+	const currentState: GameState = {
 		triangle,
 		seedPoint,
 		currentPoint: seedPoint

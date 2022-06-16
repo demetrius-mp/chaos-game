@@ -1,8 +1,8 @@
 import { getPointBetween } from '$lib/point';
 import { getRandomVertexFromTriangle } from '$lib/triangle';
-import type { ChaosGameState, Point } from '$lib/types';
+import type { GameState, Point } from '$lib/types';
 
-export function getNextPoints(options: { state: ChaosGameState; numberOfPoints: number }): Point[] {
+export function getNextPoints(options: { state: GameState; numberOfPoints: number }): Point[] {
 	const { state, numberOfPoints } = options;
 
 	return Array.from({ length: numberOfPoints }, () => {

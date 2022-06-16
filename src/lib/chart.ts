@@ -1,4 +1,3 @@
-import { getTrianglePointsAsArray } from '$lib/triangle';
 import type { Point, Triangle } from '$lib/types';
 import type { Chart } from 'chart.js';
 
@@ -15,7 +14,7 @@ export function addComputedPointsToChart(chart: Chart, points: Point[]) {
 export function addInitialTriangleToChart(chart: Chart, triangle: Triangle) {
 	chart.data.datasets.forEach((dataset) => {
 		if (dataset.label === 'Initial Triangle') {
-			dataset.data = getTrianglePointsAsArray(triangle);
+			dataset.data = triangle;
 		}
 	});
 
